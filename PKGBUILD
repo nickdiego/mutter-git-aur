@@ -18,7 +18,7 @@ pkgname=(
   mutter-git
   mutter-docs-git
 )
-pkgver=46.0+r26+ga834eb5c9
+pkgver=46.1+r290+g0c014a23b
 pkgrel=1
 pkgdesc="Window manager and compositor for GNOME"
 url="https://gitlab.gnome.org/GNOME/mutter"
@@ -85,6 +85,7 @@ makedepends=(
   egl-wayland
   gi-docgen
   git
+  glib2-devel
   gobject-introspection
   gtk3
   meson
