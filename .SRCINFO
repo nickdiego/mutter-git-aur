@@ -1,25 +1,18 @@
 pkgbase = mutter-git
 	pkgdesc = Window manager and compositor for GNOME
-	pkgver = 46.1+r290+g0c014a23b
+	pkgver = 47.0+r67+g61c722881
 	pkgrel = 1
 	url = https://gitlab.gnome.org/GNOME/mutter
 	arch = x86_64
 	license = GPL-2.0-or-later
-	checkdepends = gnome-session
-	checkdepends = python-dbusmock
-	checkdepends = wireplumber
-	checkdepends = zenity
 	makedepends = egl-wayland
 	makedepends = gi-docgen
 	makedepends = git
 	makedepends = glib2-devel
 	makedepends = gobject-introspection
-	makedepends = gtk3
 	makedepends = meson
 	makedepends = sysprof
 	makedepends = wayland-protocols
-	makedepends = xorg-server
-	makedepends = xorg-server-xvfb
 	depends = at-spi2-core
 	depends = cairo
 	depends = colord
@@ -76,11 +69,13 @@ pkgbase = mutter-git
 	depends = wayland
 	depends = xorg-xwayland
 	source = git+https://gitlab.gnome.org/GNOME/mutter.git
+	source = git+https://gitlab.gnome.org/GNOME/gvdb.git#commit=b54bc5da25127ef416858a3ad92e57159ff565b3
 	b2sums = SKIP
+	b2sums = f989bc2ceb52aad3c6a23c439df3bbc672bc11d561a247d19971d30cc85ed5d42295de40f8e55b13404ed32aa44f12307c9f5b470f2e288d1c9c8329255c43bf
 
 pkgname = mutter-git
 	provides = mutter
-	provides = libmutter-14.so
+	provides = libmutter-16.so
 	conflicts = mutter
 
 pkgname = mutter-docs-git

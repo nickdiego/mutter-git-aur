@@ -1,4 +1,4 @@
-# based on https://gitlab.archlinux.org/archlinux/packaging/packages/mutter/-/blob/dbc5b50d4be573129533e6a4d9aebd0d47405b26/PKGBUILD
+# based on https://gitlab.archlinux.org/archlinux/packaging/packages/mutter/-/blob/3068cc4544c0a57ab5c5e447b2d219028698532b/PKGBUILD
 
 # -- Arch credits
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
@@ -18,7 +18,7 @@ pkgname=(
   mutter-git
   mutter-docs-git
 )
-pkgver=46.1+r290+g0c014a23b
+pkgver=47.0+r67+g61c722881
 pkgrel=1
 pkgdesc="Window manager and compositor for GNOME"
 url="https://gitlab.gnome.org/GNOME/mutter"
@@ -87,21 +87,18 @@ makedepends=(
   git
   glib2-devel
   gobject-introspection
-  gtk3
   meson
   sysprof
   wayland-protocols
-  xorg-server
-  xorg-server-xvfb
 )
-checkdepends=(
-  gnome-session
-  python-dbusmock
-  wireplumber
-  zenity
+source=(
+  'git+https://gitlab.gnome.org/GNOME/mutter.git'
+  'git+https://gitlab.gnome.org/GNOME/gvdb.git#commit=b54bc5da25127ef416858a3ad92e57159ff565b3'
 )
-source=('git+https://gitlab.gnome.org/GNOME/mutter.git')
-b2sums=('SKIP')
+b2sums=(
+  'SKIP'
+  'f989bc2ceb52aad3c6a23c439df3bbc672bc11d561a247d19971d30cc85ed5d42295de40f8e55b13404ed32aa44f12307c9f5b470f2e288d1c9c8329255c43bf'
+)
 
 pkgver() {
   cd mutter
@@ -114,33 +111,19 @@ build() {
     -D egl_device=true
     -D installed_tests=false
     -D libdisplay_info=enabled
+    -D tests=disabled
     -D wayland_eglstream=true
   )
 
   CFLAGS="${CFLAGS/-O2/-O3} -fno-semantic-interposition"
   LDFLAGS+=" -Wl,-Bsymbolic-functions"
 
+  # Inject gvdb
+  export MESON_PACKAGE_CACHE_DIR="$srcdir"
+
   arch-meson mutter build "${meson_options[@]}"
   meson compile -C build
 }
-
-check() (
-  export XDG_RUNTIME_DIR="$PWD/rdir" GSETTINGS_SCHEMA_DIR="$PWD/build/data"
-  mkdir -p -m 700 "$XDG_RUNTIME_DIR"
-  glib-compile-schemas "$GSETTINGS_SCHEMA_DIR"
-
-  export NO_AT_BRIDGE=1 GTK_A11Y=none
-  export MUTTER_DEBUG_DUMMY_MODE_SPECS="800x600@10.0"
-
-  # Tests fail:
-  # mutter:cogl+cogl/conform / cogl-test-offscreen-texture-formats-gles2
-  # mutter:core+mutter/stacking / fullscreen-maximize
-  ## https://gitlab.gnome.org/GNOME/mutter/-/issues/3343
-  xvfb-run -s '-nolisten local +iglx -noreset' \
-    mutter/src/tests/meta-dbus-runner.py --launch=pipewire --launch=wireplumber \
-    meson test -C build --no-suite 'mutter/kvm' --no-rebuild \
-    --print-errorlogs --timeout-multiplier 10 --setup plain ||:
-)
 
 _pick() {
   local p="$1" f d; shift
@@ -153,7 +136,7 @@ _pick() {
 }
 
 package_mutter-git() {
-  provides=(mutter libmutter-14.so)
+  provides=(mutter libmutter-16.so)
   conflicts=(mutter)
 
   meson install -C build --destdir "$pkgdir"
