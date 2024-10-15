@@ -18,7 +18,7 @@ pkgname=(
   mutter-git
   mutter-docs-git
 )
-pkgver=47.0+r67+g61c722881
+pkgver=47.0+r104+g245dafe81
 pkgrel=1
 pkgdesc="Window manager and compositor for GNOME"
 url="https://gitlab.gnome.org/GNOME/mutter"
@@ -110,7 +110,6 @@ build() {
     -D docs=true
     -D egl_device=true
     -D installed_tests=false
-    -D libdisplay_info=enabled
     -D tests=disabled
     -D wayland_eglstream=true
   )
