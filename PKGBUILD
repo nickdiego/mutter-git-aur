@@ -18,7 +18,7 @@ pkgname=(
   mutter-git
   mutter-docs-git
 )
-pkgver=47.0+r104+g245dafe81
+pkgver=47.0+r228+g2d4078cb3aa2
 pkgrel=1
 pkgdesc="Window manager and compositor for GNOME"
 url="https://gitlab.gnome.org/GNOME/mutter"
@@ -92,7 +92,7 @@ makedepends=(
   wayland-protocols
 )
 source=(
-  'git+https://gitlab.gnome.org/GNOME/mutter.git'
+  'git+https://gitlab.gnome.org/nickdiego/mutter.git#branch=wip/xdg-toplevel-drag'
   'git+https://gitlab.gnome.org/GNOME/gvdb.git#commit=b54bc5da25127ef416858a3ad92e57159ff565b3'
 )
 b2sums=(
