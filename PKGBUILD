@@ -120,7 +120,16 @@ build() {
   # Inject gvdb
   export MESON_PACKAGE_CACHE_DIR="$srcdir"
 
-  arch-meson mutter build "${meson_options[@]}"
+  meson setup --reconfigure \
+    --prefix        /usr \
+    --libexecdir    lib \
+    --sbindir       bin \
+    --buildtype     debug \
+    --auto-features enabled \
+    --wrap-mode     nodownload \
+    -D              b_pie=true \
+    -D              python.bytecompile=1 \
+    mutter build "${meson_options[@]}"
   meson compile -C build
 }
 
